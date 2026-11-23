@@ -15,8 +15,12 @@ extends GenericStateMachine
 func _setup() -> void:
 	if character == null:
 		printerr("%s: character is not defined!" % name)
+		return
 	for state: PlayerState in states_list:
 		state.character = character
+	
+	character.hit.connect(notify_hit)
+	character.body_animations.animation_finished.connect(_on_animation_finished)
 
 
 ## Esta función deriva el handleo de cada golpe que recibe
